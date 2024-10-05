@@ -41,7 +41,10 @@ function ge_menu_page_markup() {
         } else {
             // Display the PHP code for the selected form
             echo '<h2>' . __('PHP Code for Form:', 'ge') . ' ' . esc_html($form['title']) . '</h2>';
-            echo '<div class="code-wrapper"><code>' . esc_html($generator->generate_php_code_for_form()) . '</code></div>';
+            echo '<div class="code-wrapper">';
+            echo '<button class="copy-button button-primary" onclick="copyToClipboard()">' . __('Copy the code', 'ge') . '</button>';
+            echo '<code id="php-code">' . esc_html($generator->generate_php_code_for_form()) . '</code>';
+            echo '</div>';
         }
     } else {
         // Display form selection
@@ -80,13 +83,39 @@ function ge_php_exporter_styles() {
             font-family: monospace;
             white-space: pre;
             border-radius: 4px;
+            margin-right: 20px;
+            position: relative;
         }
         .code-wrapper code {
             background: transparent;
             font-family: monospace;
             font-size: 14px;
         }
+        .code-wrapper .copy-button {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+        }
     </style>
     ';
 }
 add_action('admin_head', 'ge_php_exporter_styles');
+
+// Add the JavaScript for copying the code to clipboard
+function ge_php_exporter_scripts() {
+    echo '
+    <script type="text/javascript">
+        function copyToClipboard() {
+            const code = document.getElementById("php-code").innerText;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("' . __('Code copied to your clipboard!', 'ge') .  '");
+        }
+    </script>
+    ';
+}
+add_action('admin_footer', 'ge_php_exporter_scripts');
