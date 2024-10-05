@@ -48,19 +48,27 @@ function ge_menu_page_markup() {
         }
     } else {
         // Display form selection
-        echo '<h2>' . __('Select a Form to Export as PHP Code', 'ge') . '</h2>';
+        echo '<h2>' . __('Gravity Exporter', 'ge') . '</h2>';
         echo '<form method="post">';
-        echo '<label for="gf_form_id">' . __('Choose a form:', 'ge') . '</label><br>';
+        echo '<table class="form-table">';
+        echo '<tr>';
+        echo '<th scope="row"><label for="gf_form_id">' . __('Form', 'ge') . '</label></th>';
+        echo '<td>';
 
         $forms = GFAPI::get_forms();
-        if (! empty($forms)) {
+        if (!empty($forms)) {
             echo '<select name="gf_form_id" id="gf_form_id">';
             foreach ($forms as $form) {
                 echo '<option value="' . esc_attr($form['id']) . '">' . esc_html($form['title']) . '</option>';
             }
             echo '</select>';
-            echo '<br><br>';
+            echo '<p class="description">' . __('Please select a form from the dropdown to generate the corresponding PHP code for that form.', 'ge') . '</p>';
+            echo '</td>';
+            echo '</tr>';
+            echo '</table>';
+            echo '<p class="submit">';
             echo '<input type="submit" class="button-primary" value="' . __('Generate PHP Code', 'ge') . '">';
+            echo '</p>';
         } else {
             echo '<p>' . __('No forms found.', 'ge') . '</p>';
         }
