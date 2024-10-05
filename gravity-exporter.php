@@ -10,7 +10,8 @@
 defined('ABSPATH') or die;
 
 define('GE_DIR', __DIR__ . '/');
-
 define('GE_INC', GE_DIR . 'includes/');
 
+require_once GE_INC . 'class-ge-converter.php';
+require_once GE_INC . 'class-ge-generator.php';
 require_once GE_INC . 'menu-page.php';
